@@ -31,4 +31,14 @@
         android:name="com.example.ad2l2.ui.form.FormFragment"
         android:label="fragment_form"
         tools:layout="@layout/fragment_form" />
+    <fragment
+        android:id="@+id/onBoardFragment"
+        android:name="com.example.ad2l2.ui.onBoard.OnBoardFragment"
+        android:label="fragment_on_board"
+        tools:layout="@layout/fragment_on_board" />
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.example.ad2l2.ui.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>
