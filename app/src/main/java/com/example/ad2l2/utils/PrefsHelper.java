@@ -4,17 +4,35 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class PrefsHelper {
-    private final  String BOARD_KEY= "board_key";
+
+    public  static final String APP_PREFERENCES = "MY SETTINGS";
+    public  static  final  String BOOLEAN_FOT_SHOW_OPEN= "SHOW";
+    public  static  final  String FOR_NAME = "NAME";
+    public static final String SAVE_SORT ="SORT";
     private SharedPreferences sharedPreferences = null;
 
     public PrefsHelper(Context context) {
-        sharedPreferences = context.getSharedPreferences("pref", Context.MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
 
     }
     public  void saveBoardShown( boolean isShown){
-        sharedPreferences.edit().putBoolean(BOARD_KEY,isShown).apply();
+        sharedPreferences.edit().putBoolean(BOOLEAN_FOT_SHOW_OPEN,isShown).apply();
     }
     public Boolean isBoardShown(){
-        return  sharedPreferences.getBoolean(BOARD_KEY,false);
+        return  sharedPreferences.getBoolean(BOOLEAN_FOT_SHOW_OPEN,false);
     }
+
+    public  void  setForName (String name){
+        sharedPreferences.edit().putString(FOR_NAME, name).apply();
+    }
+    public String getForName(){
+        return sharedPreferences.getString(FOR_NAME,"");
+    }
+    public  void  saveSort(Boolean saveSort){
+        sharedPreferences.edit().putBoolean(SAVE_SORT, saveSort).apply();
+    }
+    public  Boolean getSaveSort(){
+        return sharedPreferences.getBoolean(SAVE_SORT,false);
+    }
+
 }
