@@ -22,8 +22,15 @@ public  interface  NoteDao {
     void delete(HomeViewModel model);
     @Update
     void  update (HomeViewModel model);
+
+
     @Query("SELECT * FROM homeviewmodel ORDER by description ASC")
     List<HomeViewModel> getAllBySort();
 
+    @Query("SELECT * FROM homeviewmodel ORDER by description DESC")
+    List<HomeViewModel> getAllBySortRes();
+
+    @Query("DELETE FROM homeviewmodel")
+    void deleteAll();
 
 }

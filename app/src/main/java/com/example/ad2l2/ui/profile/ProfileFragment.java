@@ -18,13 +18,18 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import android.text.GetChars;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.ad2l2.App;
 import com.example.ad2l2.R;
 import com.example.ad2l2.databinding.FragmentProfileBinding;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class ProfileFragment extends Fragment {
@@ -36,6 +41,7 @@ private NavController navController;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
 
     }
@@ -73,10 +79,42 @@ private NavController navController;
         mGetContent.launch("image/*");
     }
 
-private  void  click(){
-        binding.btn.setOnClickListener(v -> {
-            App.prefsHelper.setForName(binding.editName.getText().toString());
-        });
+private  void  click() {
+    binding.btn.setOnClickListener(v -> {
+
+        App.prefsHelper.setForName(binding.editName.getText().toString().trim());
+
+    });
+
 }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_signout,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId()==R.id.sign_out){
+            item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    navController.navigate(R.id.authFragment);
+                    FirebaseAuth.getInstance().signOut();
+
+                    return false;
+
+                }
+            });
+         //   navController.navigate(R.id.authFragment);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
+
+
+
+
+
 

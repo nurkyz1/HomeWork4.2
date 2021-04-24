@@ -5,20 +5,60 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.auth.AuthFragment">
-    <EditText
-        android:id="@+id/edit_number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Введите номер"
-        android:layout_margin="30dp"
-        />
-    <Button
-        android:id="@+id/button_sign"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-         android:layout_margin="30dp"
-        android:text="Отправить"
-        />
 
+    <LinearLayout
+        android:id="@+id/phoneContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/edit_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:hint="Введите номер" />
+
+        <Button
+            android:id="@+id/button_sign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:text="Отправить" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/codeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         android:visibility="gone"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/edit_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:hint="Введите смс код"
+            android:maxLength="6" />
+
+        <Button
+            android:id="@+id/button_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:text="Войти" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="нажмите"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:layout_gravity="center"/>
+
+
+    </LinearLayout>
 
 </LinearLayout>

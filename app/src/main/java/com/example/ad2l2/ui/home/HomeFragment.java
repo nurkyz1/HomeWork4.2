@@ -6,10 +6,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -24,9 +26,12 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import com.example.ad2l2.App;
+import com.example.ad2l2.MainActivity;
 import com.example.ad2l2.R;
 import com.example.ad2l2.databinding.FragmentHomeBinding;
 import com.example.ad2l2.ui.room.NoteDao;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,10 +42,12 @@ public class HomeFragment extends Fragment  implements  Listen{
     private NavController navController;
     private FragmentHomeBinding binding;
     private List<HomeViewModel> list= new ArrayList<>();
+    private MainActivity mainActivity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         homeAdapter = new HomeAdapter(this);
 
     }
@@ -72,6 +79,7 @@ public class HomeFragment extends Fragment  implements  Listen{
         return binding.getRoot();
     }
 
+
     private void getDataInform() {
         getParentFragmentManager().setFragmentResultListener("key",
                 getViewLifecycleOwner(), new FragmentResultListener() {
@@ -91,7 +99,14 @@ public class HomeFragment extends Fragment  implements  Listen{
                             App.database.noteDao().update(model);
                         }else {
                             App.database.noteDao().insert(new HomeViewModel(a,b));
-                            Log.e("TAG", "onFragmentResult: "  );
+                            FirebaseFirestore.getInstance().collection("notes")
+                                    .add(model).addOnCompleteListener(task -> {
+                                if (task.isSuccessful()){
+                                    Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show();
+                                }else {
+                                    Toast.makeText(requireContext(), "Failure", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     }
                 });
@@ -103,10 +118,10 @@ public class HomeFragment extends Fragment  implements  Listen{
         binding.fapAdd.setOnClickListener(v -> {
             navController.navigate(R.id.action_navigation_home_to_formFragment);
         });
-        binding.btn1.setOnClickListener(v -> {
-            homeAdapter.addList(App.database.noteDao().getAllBySort());
-            binding.rv.setAdapter(homeAdapter);
-        });
+       // binding.btn1.setOnClickListener(v -> {
+         //   homeAdapter.addList(App.database.noteDao().getAllBySort());
+           // binding.rv.setAdapter(homeAdapter);
+       // });
 
     }
 
@@ -133,6 +148,28 @@ public class HomeFragment extends Fragment  implements  Listen{
         adg.setNegativeButton(negative, null);
         adg.show();
     }
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_item, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.sortAZ) {
+            homeAdapter.addList(App.database.noteDao().getAllBySort());
+            binding.rv.setAdapter(homeAdapter);
+            Snackbar.make(requireView(), "Отсортирован A-Я", Snackbar.LENGTH_SHORT).show();
 
+        } else if (item.getItemId() == R.id.sortZA) {
+            homeAdapter.addList(App.database.noteDao().getAllBySortRes());
+            binding.rv.setAdapter(homeAdapter);
+            Snackbar.make(requireView(), "Отсортирован Я-А", Snackbar.LENGTH_SHORT).show();
+
+        }
+        else if (item.getItemId() == R.id.deleteAll){
+            App.database.noteDao().deleteAll();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

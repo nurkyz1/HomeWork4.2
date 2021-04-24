@@ -42,8 +42,9 @@
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
-        android:id="@+id/navigation_auth"
-        android:name="com.example.ad2l2.ui.profile.ProfileFragment"
+        android:id="@+id/authFragment"
+        android:name="com.example.ad2l2.ui.auth.AuthFragment"
         android:label="@string/Авторизация"
         tools:layout="@layout/fragment_auth" />
+
 </navigation>

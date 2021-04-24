@@ -93,8 +93,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                     public void onClick(DialogInterface dialog, int which) {
                         App.database.noteDao().delete(list.get(getAdapterPosition()));
                         notifyItemChanged(getAdapterPosition());
-                        list.remove(getAdapterPosition());
-                        notifyDataSetChanged();
                     }
 
                 });

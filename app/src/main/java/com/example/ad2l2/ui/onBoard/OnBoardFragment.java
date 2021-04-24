@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.ad2l2.App;
+import com.example.ad2l2.R;
 import com.example.ad2l2.databinding.FragmentOnBoardBinding;
 
 public class OnBoardFragment extends Fragment{
@@ -46,7 +47,7 @@ App.prefsHelper.saveBoardShown(true);
                 if (position==2){
                     binding.button.setText("Finish");
                     binding.button.setOnClickListener(v -> {
-                        navController.navigateUp();
+                        navController.navigate(R.id.authFragment);
                     });
                 }else {
                     binding.button.setOnClickListener(v -> {
@@ -55,7 +56,7 @@ App.prefsHelper.saveBoardShown(true);
                 }
                 if (position==0){
                     binding.button1.setOnClickListener(v -> {
-                        navController.navigateUp();
+                        navController.navigate(R.id.authFragment);
                     });
                 }
                 if(position==1){
@@ -63,6 +64,8 @@ App.prefsHelper.saveBoardShown(true);
                 }
             }
         });
+       // binding.indicator.setViewPager(binding.viewPager);
+        //pagerAdapter.registerAdapterDataObserver(binding.indicator.getAdapterDataObserver());
 
         requireActivity().getOnBackPressedDispatcher().
                 addCallback(
